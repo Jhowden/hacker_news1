@@ -3,6 +3,7 @@ class CreatePosts < ActiveRecord::Migration
     create_table :posts do |t|
       t.string :title
       t.string :url
+      t.integer :counter, default: 0
       t.integer :user_id
 
       t.timestamps

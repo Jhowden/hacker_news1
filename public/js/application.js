@@ -1,4 +1,7 @@
 $(document).ready(function() {
+  
+
+
   $("a#create_post").click(function(event){
     event.preventDefault();
 
@@ -21,5 +24,7 @@ $(document).ready(function() {
       $('.all_posts').html(response);
     })
   })
+
+
 
 });

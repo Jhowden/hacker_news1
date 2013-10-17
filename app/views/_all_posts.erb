@@ -1,10 +1,27 @@
 <h1>Hacker News: The site where you provide the news</h1>
 <a href='/create_post' id="create_post">Create a new Post</a>
-<ol>
+<ul>
   <% @posts.each do |post| %>
   <li>
-    <a href="<%= post.url %>"> <%= post.title %> </a> | <a href="<%= post.url %>"> <%= post.url %> </a>
+    <a class="counter<%= post.id %>" href='/post_counter/<%= post.id %>/upvote'>Upvote</a> <a class="counter<%= post.id %>" href='/post_counter/<%= post.id %>/downvote'>Downvote</a>Votes: <span id="counter_num<%= post.id %>"><%= post.counter %></span> <a href="<%= post.url %>"> <%= post.title %> </a> | <a href="<%= post.url %>"> <%= post.url %> </a>
     <p><a href="/user/<%= User.find(post.user_id).id %>"> <%= User.find(post.user_id).name %></a> | <a href="/post/comments/<%= post.id %>">Comments</a></p>
   </li>
   <% end %>
-</ol>
+</ul>
+
+  <script type="text/javascript">
+
+   <% @posts.each do |post| %>
+
+    $('.counter<%= post.id %>').click(function(event){
+    event.preventDefault();
+    console.log("kjsahddfh")
+    var url = $(this).attr('href');
+
+    $.get(url, function(response){
+      console.log(response);
+      $('#counter_num<%= post.id %>').html(response);
+    })
+  })
+<% end %>
+  </script>

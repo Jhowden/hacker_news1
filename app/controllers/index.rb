@@ -37,6 +37,24 @@ get '/logout' do
   redirect to '/'
 end
 
+get '/post_counter/:post_id/:type_vote' do
+  if params[:type_vote] == "upvote"
+    @vote = 1
+  else
+    @vote = -1
+  end
+  @post = Post.find(params[:post_id])
+  @post.postvotes.create(user_id: current_user.id, value: @vote)
+  new_counter = @post.counter + @vote
+  @post.update_attributes(counter: new_counter)
+
+  if request.xhr?
+    @post.counter.to_s
+  else
+    redirect to '/'
+  end
+end
+
 
 post '/create_user' do
   User.create(params[:user])
@@ -61,6 +79,7 @@ end
 post '/created_post' do
   if session[:user_id]
     @post = Post.create(params[:post])
+
     @user = User.find(session[:user_id])
     @user.posts << @post
 
